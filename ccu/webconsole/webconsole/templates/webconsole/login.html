@@ -1,0 +1,31 @@
+{%extends TMPL_BASE%}
+
+{%block header%}<!-- Hide the header in login page -->{%endblock%}
+
+{%block title%}Sign In - IMC Smart Home{%endblock%}
+
+{%block content%}
+<div id="pnl_body" class="jumbotron pnl-content row">
+<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2" style="padding: 50px;"><form method="POST">{%csrf_token%}
+	<h1>Sign In</h1>
+	<p>You are accessing the protected resources. Please sign in to continue.</p>
+	{%if messages%}
+		<ul class="messages">{%for msg in messages%}
+			<li class="label label-warning">{{msg}}</li>
+		{%endfor%}</ul>
+	{%endif%}
+	<div class="field">
+		<label for="usernameFld">Username: </label>
+		<input type="text" name="username" id="usernameFld" placeholder="Username" class="form-control"/>
+	</div>
+	<div class="field">
+		<label for="passwordFld">Password: </label>
+		<input type="password" name="password" id="passwordFld" placeholder="Password" class="form-control"/>
+	</div>
+	<div class="pnl-btns">
+		<button type="submit" class="btn btn-primary">Login</button>
+		<button type="reset" class="btn btn-danger">Reset</button>
+	</div>
+</form></div>
+</div>
+{%endblock%}
