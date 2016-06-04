@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login as auth_login
+from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages as msg
@@ -20,6 +21,10 @@ def login(req):
 			msg.warning(req, 'Authentication failed due to incorrect username or password')
 		
 	return render(req, 'webconsole/login.html', params)
+
+def logout(req):
+	auth_logout(req)
+	return redirect(settings.ABSOLUTE_PATH)
 
 @login_required
 def dashboard(req):

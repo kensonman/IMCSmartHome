@@ -9,6 +9,7 @@
 <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2" style="padding: 50px;"><form method="POST">{%csrf_token%}
 	<h1>Sign In</h1>
 	<p>You are accessing the protected resources. Please sign in to continue.</p>
+	<p>The default user is <span>admin</span> with password <span>adminpass</span>.</p>
 	{%if messages%}
 		<ul class="messages">{%for msg in messages%}
 			<li class="label label-warning">{{msg}}</li>
