@@ -56,7 +56,7 @@ def appliance(req, aid):
 	if aid=='new':
 		params['cmd']=Appliance()
 		return render(req, 'webconsole/appliance-new.html', params)
-	else if aid=='search':
+	elif aid=='search':
 		import nmap
 		import socket
 		ip=socket.gethostbyname(socket.gethostname())
