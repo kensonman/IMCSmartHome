@@ -1,0 +1,25 @@
+{%extends TMPL_BASE%}
+
+{%block title%}Appliances - IMC Smart Home{%endblock%}
+
+{%block content%}<div id="pnl_content" class="jumbotron pnl-content">
+	<h1>Appliances List</h1>
+
+	<table class="table">
+		<tr class="row-header">
+			<th>ID</th>
+			<th>Name</th>
+			<th>Status</th>
+			<th>Last Message</th>
+		</tr>{%for a in cmd%}<tr class="row-data">
+			<td><a href="{{a.id}}/">{{a.id}}</a></td>
+			<td>{{a.name}}</td>
+			<td>{{a.online}}</td>
+			<td>{{a.status|default:''}}</td>
+		</tr>{%endfor%}
+	</table>
+	
+	<div class="pnl-btns">
+		<a href="new/" class="btn btn-success"><i class="fa fa-plus"></i> Register a appliance</a>
+	</div>
+</div>{%endblock%}

@@ -22,6 +22,7 @@ urlpatterns = [
 	url(r'^$', views.dashboard, name='dashboard'),
 	url(r'^login/?$', views.login, name='login'),
 	url(r'^logout/?$', views.logout, name='logout'),
-	url(r'^appliances$', views.appliances, name='appliances'),
-	url(r'^users$', views.users, name='users'),
+	url(r'^appliances/?$', views.appliances, name='appliances'),
+	url(r'^appliances/(?P<aid>[^/]+)/?$', views.appliance, name='appliance'),
+	url(r'^users/?$', views.users, name='users'),
 ]

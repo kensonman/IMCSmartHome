@@ -1,0 +1,48 @@
+{%extends TMPL_BASE%}
+
+{%block title%}Register new appliance - IMC Smart Home{%endblock%}
+
+{%block content%}<div id="pnl_content" class="pnl-content jumbotron">
+<div class="pnl-padding">
+	<h1>Register new appliance</h1>
+
+	<form method="POST">
+		<div class="field">
+			<div class="input-group">
+				<span class="input-group-addon"><input type="radio" name="method" value="search" id="method_search"/></span>
+				<label for="method_search" class="form-control">Search for appliance</label>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon"><input type="radio" name="method" value="manual" id="method_manual"/></span>
+				<label for="method_manual" class="form-control">Manual Input</label>
+			</div>
+		</div>
+
+		<div class="field">
+			<label for="ipaddrFld">Appliance IP Address:</label>
+			<input type="text" name="ipaddr" id="ipaddrFld" class="form-control"/>
+		</div>
+
+		<div class="field">
+			<label for="macaddrFld">Appliance MAC Address:</label>
+			<input type="text" name="macaddr" id="macaddrFld" class="form-control"/>
+		</div>
+
+		<div class="field">
+			<label for="nameFld">Appliance Name:</label>
+			<input type="text" name="name" id="nameFld" class="form-control"/>
+		</div>
+
+		<div class="field">
+			<label for="locFld">Appliance Location:</label>
+			<input type="text" name="loc" id="locFld" class="form-control"/>
+		</div>
+
+			
+		<div class="pnl-btns">
+			<button type="submit" class="btn btn-success">Register</button>
+			<button type="reset" class="btn btn-warning">Reset</button>
+		</div>
+	</form>
+</div>
+</div>{%endblock%}
