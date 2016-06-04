@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages as msg
+from django.http import HttpResponse
 from webconsole.models import *
 
 def login(req):
@@ -62,10 +63,18 @@ def appliance(req, aid):
 		ip=socket.gethostbyname(socket.gethostname())
 		nm=nmap.PortScanner()
 		nm.scan('%s/24'%ip, '80,443')
-		# reference http://xael.org/pages/python-nmap-en.html
+		rep=HttpResponse(content_type='application/json')
+		cnt=0
+		rep.write('[')
+		for h in nm.all_hosts():
+			if cnt>0: rep.write(', ')
+			rep.write('\"%s\"'%h)
+			cnt+=1
+		rep.write(']')
+		return rep
 	else:
 		params['cmd']=getObj(Appliance, id=aid)
-	return render(req, 'webconsole/appliance.html', params)
+		return render(req, 'webconsole/appliance.html', params)
 
 @login_required
 def users(req):

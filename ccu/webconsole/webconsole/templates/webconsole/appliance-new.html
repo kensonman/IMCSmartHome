@@ -2,6 +2,40 @@
 
 {%block title%}Register new appliance - IMC Smart Home{%endblock%}
 
+{%block scripts%}{{block.super}}
+<style type="text/css">
+.field-addr{ display: none; }
+.field-search .title{ padding: 5px; background-color:gray; color:white; }
+.field-search .data{padding: 20px; }
+</style>
+<script type="text/javascript"><!--
+$(document).ready(function(){
+	$('input[name=method]').change(function(){
+		var val=$('input[name=method]:checked').val();
+		if(val=='manual'){
+			$('.field-addr').show();
+			$('.field-search').hide();
+		}else{
+			$('.field-addr').hide();
+			$('.field-search').show()
+				.find('.data').html('<i class="fa fa-spinner fa-spin"></i> Searching the available appliances...').end();
+			jQuery.ajax('{{ABSOLUTE_PATH}}appliances/search/', {dataType: 'json', context: $('.field-search .data'), success: function(data){
+				$(this).empty();
+				jQuery.each(data, function(k, v){
+					$('.field-search .data').html('<div class="input-group">'+
+						'<span class="input-group-addon"><input type="radio" name="appliance" value="'+v+'" id="appliance_'+k+'"/></span>'+
+						'<label for="appliance_'+k+'" class="form-control">'+v+'</label>'+
+					'</div>');
+				});
+			}});
+		}
+	});
+	$('.field-addr').hide();
+	$('.field-search').hide();
+});
+//--></script>
+{%endblock%}
+
 {%block content%}<div id="pnl_content" class="pnl-content jumbotron">
 <div class="pnl-padding">
 	<h1>Register new appliance</h1>
@@ -18,14 +52,19 @@
 			</div>
 		</div>
 
-		<div class="field">
+		<div class="field field-addr">
 			<label for="ipaddrFld">Appliance IP Address:</label>
 			<input type="text" name="ipaddr" id="ipaddrFld" class="form-control"/>
 		</div>
 
-		<div class="field">
+		<div class="field field-addr">
 			<label for="macaddrFld">Appliance MAC Address:</label>
 			<input type="text" name="macaddr" id="macaddrFld" class="form-control"/>
+		</div>
+
+		<div class="field field-search panel">
+			<div class="title">Available List</div>
+			<div class="data"></div>
 		</div>
 
 		<div class="field">
