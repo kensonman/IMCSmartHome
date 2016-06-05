@@ -43,7 +43,7 @@ $(document).ready(function(){
 
 {%block content%}<div id="pnl_content" class="pnl-content jumbotron">
 <div class="pnl-padding">
-	<h1>Register new appliance</h1>
+	<h1>{%if aid == 'new'%}Register new{%else%}Update{%endif%} appliance</h1>
 
 	<form method="POST" id="applianceFrm">
 		{%csrf_token%}
@@ -78,7 +78,7 @@ $(document).ready(function(){
 
 		<div class="field field-addr">
 			<label for="ipaddrFld">Appliance IP Address:</label>
-			<input type="text" name="ipaddr" id="ipaddrFld" class="form-control" value="{{cmd.ipaddr}}"/>
+			<input type="text" name="ipaddr" id="ipaddrFld" class="form-control" value="{{cmd.ipaddr|default:''}}"/>
 		</div>
 
 		<div class="field field-search panel">
@@ -87,18 +87,28 @@ $(document).ready(function(){
 		</div>
 
 		<div class="field">
+			<label for="portFld">Appliance Port:</label>
+			<input type="text" name="port" id="portFld" class="form-control" value="{{cmd.port|default:'9876'}}" placeholder="Default is 9876"/>
+		</div>
+
+		<div class="field">
 			<label for="nameFld">Appliance Name:</label>
-			<input type="text" name="name" id="nameFld" class="form-control" value="{{cmd.name}}"/>
+			<input type="text" name="name" id="nameFld" class="form-control" value="{{cmd.name|default:''}}"/>
 		</div>
 
 		<div class="field">
 			<label for="locFld">Appliance Location:</label>
-			<input type="text" name="loc" id="locFld" class="form-control" value="{{cmd.location}}"/>
+			<input type="text" name="loc" id="locFld" class="form-control" value="{{cmd.location|default:''}}"/>
 		</div>
+
+		{%if aid != 'new'%}<div class="field">
+			<label for="scFld">Secure Code (It usuall printed on your appliance):</label>
+			<input type="text" name="securecode" id="scFld" class="form-control"/>
+		</div>{%endif%}
 			
 		<div class="pnl-btns">
 			{%if aid != 'new'%}<button type="button" class="btn btn-danger" id="resignBtn">Resign</button>{%endif%}
-			<button type="submit" class="btn btn-success">Register</button>
+			<button type="submit" class="btn btn-success">{%if aid == 'new'%}Register{%else%}Update{%endif%}</button>
 			<button type="reset" class="btn btn-warning">Reset</button>
 		</div>
 	</form>

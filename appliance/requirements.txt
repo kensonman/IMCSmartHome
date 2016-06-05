@@ -6,6 +6,4 @@ pytz
 humanize
 yowsup
 argparse
-python-nmap
-netifaces
 requests

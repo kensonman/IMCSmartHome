@@ -5,7 +5,28 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages as msg
 from django.http import HttpResponse
+from django.utils import timezone as tz
+from django.views.decorators.csrf import csrf_exempt
 from webconsole.models import *
+import uuid
+import requests
+import json
+
+FMT='%Y-%m-%dT%H:%M:%S%z'
+
+@csrf_exempt
+def cmd(req):
+	'''
+	Show the command
+	'''
+	cmd=req.POST['CMD']
+	if cmd=='REGISTER':
+		params=json.loads(req.POST['PARAMS'])['PARAMS']
+		cmd=Command()
+		cmd.Name=params['NAME']
+		cmd.appliance_id=params['AID']
+		cmd.save()
+	return HttpResponse('OK')
 
 def login(req):
 	params=dict()
@@ -55,13 +76,29 @@ def appliance(req, aid):
 	'''
 	params=dict()
 	params['aid']=aid
+	import netifaces
+	ipaddr=netifaces.ifaddresses(getattr(settings, 'BIND', 'eth0'))[2][0]['addr']
 	if req.method=='POST':
 		appliance=Appliance()
 		if req.POST.get('id', None): appliance.id=req.POST['id']
 		appliance.ipaddr=req.POST['ipaddr']
+		appliance.port=req.POST['port']
 		appliance.name=req.POST['name']
 		appliance.location=req.POST['loc']
 		appliance.save()
+		#Sending the REGISTER command to appliance
+		data=dict()
+		data['UUID']=uuid.uuid4().__str__()
+		data['CMD']='REGISTER'
+		data['SNAME']='CCU'
+		data['SIP']=ipaddr
+		data['SPORT']=getattr(settings, 'PORT', '8000')
+		data['TNAME']=appliance.name
+		data['TIP']=appliance.ipaddr
+		data['TPORT']=appliance.port
+		data['PARAMS']=json.dumps([req.POST.get('securecode', 'ABC1234'),appliance.id])
+		data['TIME']=tz.now().strftime(FMT)
+		requests.post('http://%s:%s/'%(appliance.ipaddr, appliance.port), data=data)
 		return redirect('appliances')
 	elif req.method=='DELETE':
 		appliance=getObj(Appliance, id=aid)
@@ -71,15 +108,14 @@ def appliance(req, aid):
 		params['cmd']=Appliance()
 	elif aid=='search':
 		import nmap
-		import netifaces
-		ipaddr=netifaces.ifaddresses(getattr(settings, 'BIND', 'eth0'))[2][0]['addr']
 		nm=nmap.PortScanner()
 		nm.scan('%s/24'%ipaddr, '80,443')
 		rep=HttpResponse(content_type='application/json')
 		cnt=0
 		rep.write('[')
 		for h in nm.all_hosts():
-			if h==ipaddr: continue
+			if h==ipaddr: continue #Skip the CCU itself
+			if Appliance.objects.filter(ipaddr=h): continue #Skip the registered appliance
 			if cnt>0: rep.write(', ')
 			rep.write('{\"IPAddr\": \"%s\", \"Name\": \"%s\"}'%(h, nm[h]['tcp'][80]['product']))
 			cnt+=1
