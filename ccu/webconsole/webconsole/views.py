@@ -54,21 +54,29 @@ def appliance(req, aid):
 			  if this is equals to "search", search the available appliance;
 	'''
 	params=dict()
-	if aid=='new':
+	if req.method=='POST':
+		appliance=Appliance()
+		appliance.ipaddr=req.POST['ipaddr']
+		appliance.name=req.POST['name']
+		appliance.location=req.POST['loc']
+		appliance.save()
+		return redirect('appliances')
+	elif aid=='new':
 		params['cmd']=Appliance()
 		return render(req, 'webconsole/appliance-new.html', params)
 	elif aid=='search':
 		import nmap
-		import socket
-		ip=socket.gethostbyname(socket.gethostname())
+		import netifaces
+		ipaddr=netifaces.ifaddresses(getattr(settings, 'BIND', 'eth0'))[2][0]['addr']
 		nm=nmap.PortScanner()
-		nm.scan('%s/24'%ip, '80,443')
+		nm.scan('%s/24'%ipaddr, '80,443')
 		rep=HttpResponse(content_type='application/json')
 		cnt=0
 		rep.write('[')
 		for h in nm.all_hosts():
+			if h==ipaddr: continue
 			if cnt>0: rep.write(', ')
-			rep.write('\"%s\"'%h)
+			rep.write('{\"IPAddr\": \"%s\", \"Name\": \"%s\"}'%(h, nm[h]['tcp'][80]['product']))
 			cnt+=1
 		rep.write(']')
 		return rep

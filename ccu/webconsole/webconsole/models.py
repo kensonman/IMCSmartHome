@@ -10,8 +10,8 @@ class Appliance(models.Model):
 	'''
 	id		= models.UUIDField(primary_key=True, default=uuid.uuid4,editable=False)
 	name		= models.CharField(max_length=100)
+	location	= models.CharField(max_length=100,null=True,blank=True)
 	ipaddr		= models.CharField(max_length=20)
-	macaddr		= models.CharField(max_length=20)
 	online		= models.BooleanField(default=False)
 	status		= models.CharField(max_length=100,null=True,blank=True)
 

@@ -9,6 +9,29 @@
 .field-search .data{padding: 20px; }
 </style>
 <script type="text/javascript"><!--
+var selectAppliance=function(){
+	var ipaddr=$('input[name=appliance]:checked').val();
+	$('#ipaddrFld').val(ipaddr);
+};
+var scanappliances=function(){
+	$('.field-search').show()
+		.find('.data').html('<i class="fa fa-spinner fa-spin"></i> Searching the available appliances, it may take a few minutes...').end();
+	jQuery.ajax('{{ABSOLUTE_PATH}}appliances/search/', {dataType: 'json', context: $('.field-search .data'), success: function(data){
+		$(this).empty();
+		jQuery.each(data, function(k, v){
+			$('.field-search .data').append('<div class="input-group">'+
+				'<span class="input-group-addon"><input type="radio" name="appliance" value="'+v.IPAddr+'" id="appliance_'+k+'"/></span>'+
+				'<label for="appliance_'+k+'" class="form-control">'+v.Name+' ['+v.IPAddr+'] </label>'+
+			'</div>');
+		});
+		
+		$(this).append('<div class="pnl-btns"><a class="btn btn-default" href="#" id="rescanBtn">Rescan appliances</a><div>');
+		$(this)
+			.find('#rescanBtn').click(scanappliances).end()
+			.find('input[name=appliance]').change(selectAppliance).end()
+		;
+	}});
+};
 $(document).ready(function(){
 	$('input[name=method]').change(function(){
 		var val=$('input[name=method]:checked').val();
@@ -17,17 +40,7 @@ $(document).ready(function(){
 			$('.field-search').hide();
 		}else{
 			$('.field-addr').hide();
-			$('.field-search').show()
-				.find('.data').html('<i class="fa fa-spinner fa-spin"></i> Searching the available appliances...').end();
-			jQuery.ajax('{{ABSOLUTE_PATH}}appliances/search/', {dataType: 'json', context: $('.field-search .data'), success: function(data){
-				$(this).empty();
-				jQuery.each(data, function(k, v){
-					$('.field-search .data').html('<div class="input-group">'+
-						'<span class="input-group-addon"><input type="radio" name="appliance" value="'+v+'" id="appliance_'+k+'"/></span>'+
-						'<label for="appliance_'+k+'" class="form-control">'+v+'</label>'+
-					'</div>');
-				});
-			}});
+			scanappliances();
 		}
 	});
 	$('.field-addr').hide();
@@ -41,6 +54,7 @@ $(document).ready(function(){
 	<h1>Register new appliance</h1>
 
 	<form method="POST">
+		{%csrf_token%}
 		<div class="field">
 			<div class="input-group">
 				<span class="input-group-addon"><input type="radio" name="method" value="search" id="method_search"/></span>
@@ -55,11 +69,6 @@ $(document).ready(function(){
 		<div class="field field-addr">
 			<label for="ipaddrFld">Appliance IP Address:</label>
 			<input type="text" name="ipaddr" id="ipaddrFld" class="form-control"/>
-		</div>
-
-		<div class="field field-addr">
-			<label for="macaddrFld">Appliance MAC Address:</label>
-			<input type="text" name="macaddr" id="macaddrFld" class="form-control"/>
 		</div>
 
 		<div class="field field-search panel">
