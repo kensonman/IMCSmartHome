@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-INSTALLED_APPS += ['webframe', 'webconsole',]
+INSTALLED_APPS += ['method_override', 'webframe', 'webconsole',]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,6 +49,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'method_override.middleware.MethodOverrideMiddleware',
     'webframe.LangMiddleware.LangMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 ]

@@ -54,16 +54,21 @@ def appliance(req, aid):
 			  if this is equals to "search", search the available appliance;
 	'''
 	params=dict()
+	params['aid']=aid
 	if req.method=='POST':
 		appliance=Appliance()
+		if req.POST.get('id', None): appliance.id=req.POST['id']
 		appliance.ipaddr=req.POST['ipaddr']
 		appliance.name=req.POST['name']
 		appliance.location=req.POST['loc']
 		appliance.save()
 		return redirect('appliances')
+	elif req.method=='DELETE':
+		appliance=getObj(Appliance, id=aid)
+		appliance.delete()
+		return redirect('appliances')
 	elif aid=='new':
 		params['cmd']=Appliance()
-		return render(req, 'webconsole/appliance-new.html', params)
 	elif aid=='search':
 		import nmap
 		import netifaces
@@ -82,7 +87,7 @@ def appliance(req, aid):
 		return rep
 	else:
 		params['cmd']=getObj(Appliance, id=aid)
-		return render(req, 'webconsole/appliance.html', params)
+	return render(req, 'webconsole/appliance.html', params)
 
 @login_required
 def users(req):

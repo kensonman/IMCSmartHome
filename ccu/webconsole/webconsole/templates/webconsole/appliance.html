@@ -1,10 +1,10 @@
-{%extends TMPL_BASE%}
+{%extends TMPL_BASE%}{%load method_override%}
 
 {%block title%}Register new appliance - IMC Smart Home{%endblock%}
 
 {%block scripts%}{{block.super}}
 <style type="text/css">
-.field-addr{ display: none; }
+.field-search {display: none;}
 .field-search .title{ padding: 5px; background-color:gray; color:white; }
 .field-search .data{padding: 20px; }
 </style>
@@ -32,6 +32,33 @@ var scanappliances=function(){
 		;
 	}});
 };
+var resignAppliance=function(){
+	$("#applianceFrm").find('input[name=_method]').val('DELETE').end().submit();
+};
+$(document).ready(function(){
+	$('#resignBtn').click(resignAppliance);
+});
+//--></script>
+{%endblock%}
+
+{%block content%}<div id="pnl_content" class="pnl-content jumbotron">
+<div class="pnl-padding">
+	<h1>Register new appliance</h1>
+
+	<form method="POST" id="applianceFrm">
+		{%csrf_token%}
+		<input type="hidden" name="_method" value="POST"/>
+		<input type="hidden" name="id" value="{{cmd.id}}"/>
+		{%if aid == 'new'%}<div class="field">
+			<div class="input-group">
+				<span class="input-group-addon"><input type="radio" name="method" value="search" id="method_search"/></span>
+				<label for="method_search" class="form-control">Search for appliance</label>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon"><input type="radio" name="method" value="manual" id="method_manual"/></span>
+				<label for="method_manual" class="form-control">Manual Input</label>
+			</div>
+<script type="text/javascript"><!--
 $(document).ready(function(){
 	$('input[name=method]').change(function(){
 		var val=$('input[name=method]:checked').val();
@@ -47,28 +74,11 @@ $(document).ready(function(){
 	$('.field-search').hide();
 });
 //--></script>
-{%endblock%}
-
-{%block content%}<div id="pnl_content" class="pnl-content jumbotron">
-<div class="pnl-padding">
-	<h1>Register new appliance</h1>
-
-	<form method="POST">
-		{%csrf_token%}
-		<div class="field">
-			<div class="input-group">
-				<span class="input-group-addon"><input type="radio" name="method" value="search" id="method_search"/></span>
-				<label for="method_search" class="form-control">Search for appliance</label>
-			</div>
-			<div class="input-group">
-				<span class="input-group-addon"><input type="radio" name="method" value="manual" id="method_manual"/></span>
-				<label for="method_manual" class="form-control">Manual Input</label>
-			</div>
-		</div>
+		</div>{%endif%}
 
 		<div class="field field-addr">
 			<label for="ipaddrFld">Appliance IP Address:</label>
-			<input type="text" name="ipaddr" id="ipaddrFld" class="form-control"/>
+			<input type="text" name="ipaddr" id="ipaddrFld" class="form-control" value="{{cmd.ipaddr}}"/>
 		</div>
 
 		<div class="field field-search panel">
@@ -78,16 +88,16 @@ $(document).ready(function(){
 
 		<div class="field">
 			<label for="nameFld">Appliance Name:</label>
-			<input type="text" name="name" id="nameFld" class="form-control"/>
+			<input type="text" name="name" id="nameFld" class="form-control" value="{{cmd.name}}"/>
 		</div>
 
 		<div class="field">
 			<label for="locFld">Appliance Location:</label>
-			<input type="text" name="loc" id="locFld" class="form-control"/>
+			<input type="text" name="loc" id="locFld" class="form-control" value="{{cmd.location}}"/>
 		</div>
-
 			
 		<div class="pnl-btns">
+			{%if aid != 'new'%}<button type="button" class="btn btn-danger" id="resignBtn">Resign</button>{%endif%}
 			<button type="submit" class="btn btn-success">Register</button>
 			<button type="reset" class="btn btn-warning">Reset</button>
 		</div>

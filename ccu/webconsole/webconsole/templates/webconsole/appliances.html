@@ -10,12 +10,14 @@
 		<tr class="row-header">
 			<th>ID</th>
 			<th>Name</th>
+			<th>Location</th>
 			<th>Status</th>
 			<th>Last Message</th>
 		</tr>{%for a in cmd%}<tr class="row-data">
-			<td><a href="{{a.id}}/">{{a.id}}</a></td>
+			<td><a href="{{ABSOLUTE_PATH}}appliances/{{a.id}}/">{{a.id}}</a></td>
 			<td>{{a.name}}</td>
-			<td>{{a.online}}</td>
+			<td>{{a.location}}</td>
+			<td><i class="fa fa-thumbs-{%if a.online%}up{%else%}down{%endif%}"></i></td>
 			<td>{{a.status|default:''}}</td>
 		</tr>{%endfor%}
 	</table>
