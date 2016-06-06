@@ -2,8 +2,8 @@
 import RPi.GPIO as gpio
 
 
-pin_power=12
-pin_light=16
+pin_power=3
+pin_light=5
 
 # Setup
 gpio.setmode(gpio.BOARD)
