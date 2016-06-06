@@ -39,5 +39,5 @@ def register(req):
 	data['TIP']=req.POST['SIP']
 	data['TPORT']=req.POST['SPORT']
 	data['TIME']=tz.now().strftime(FMT)
-	data['PARAMS']=json.dumps({'CMD':'ADJUST', 'PARAMS':{'AID':cmd[1],'NAME':'POWER','TYPE':'Boolean','REQUIRED':True}})
+	data['PARAMS']=json.dumps({'CMD':'ADJUST', 'AID':cmd[1], 'PARAMS':[{'NAME':'POWER','TYPE':'Boolean','REQUIRED':True},]})
 	requests.post('http://%s:%s/cmd/'%(data['TIP'], data['TPORT']), data=data)

@@ -16,6 +16,9 @@ class Appliance(models.Model):
 	online		= models.BooleanField(default=False)
 	status		= models.CharField(max_length=100,null=True,blank=True)
 
+	def commands(self):
+		return Command.objects.filter(appliance=self)
+
 class Command(models.Model):
 	'''
 	Repersenting a supporting command
@@ -23,6 +26,9 @@ class Command(models.Model):
 	id		= models.UUIDField(primary_key=True, default=uuid.uuid4,editable=False)
 	appliance	= models.ForeignKey(Appliance, on_delete=models.CASCADE)
 	name		= models.CharField(max_length=100)
+
+	def parameters(self):
+		return Parameter.objects.filter(command=self)
 
 class Parameter(models.Model):
 	'''

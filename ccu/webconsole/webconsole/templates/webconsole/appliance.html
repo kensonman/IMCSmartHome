@@ -5,8 +5,8 @@
 {%block scripts%}{{block.super}}
 <style type="text/css">
 .field-search {display: none;}
-.field-search .title{ padding: 5px; background-color:gray; color:white; }
-.field-search .data{padding: 20px; }
+.panel .title{ padding: 5px; background-color:gray; color:white; }
+.panel .data{padding: 20px; }
 </style>
 <script type="text/javascript"><!--
 var selectAppliance=function(){
@@ -101,9 +101,14 @@ $(document).ready(function(){
 			<input type="text" name="loc" id="locFld" class="form-control" value="{{cmd.location|default:''}}"/>
 		</div>
 
-		{%if aid != 'new'%}<div class="field">
+		{%if aid == 'new'%}<div class="field">
 			<label for="scFld">Secure Code (It usuall printed on your appliance):</label>
 			<input type="text" name="securecode" id="scFld" class="form-control"/>
+		</div>{%else%}<div class="panel">
+			<div class="title">Registered Commands</div>
+			<div class="data">{%for c in cmd.commands%}
+				<div class="panel">{{c.name}}({%for p in c.parameters%}{{p.name}}{%endfor%})</div>
+			{%endfor%}</div>
 		</div>{%endif%}
 			
 		<div class="pnl-btns">

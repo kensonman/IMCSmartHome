@@ -21,11 +21,18 @@ def cmd(req):
 	'''
 	cmd=req.POST['CMD']
 	if cmd=='REGISTER':
-		params=json.loads(req.POST['PARAMS'])['PARAMS']
-		cmd=Command()
-		cmd.Name=params['NAME']
-		cmd.appliance_id=params['AID']
-		cmd.save()
+		cmd=json.loads(req.POST['PARAMS'])
+		command=Command()
+		command.name=req.POST['CMD']
+		command.appliance_id=cmd['AID']
+		command.save()
+		for p in cmd['PARAMS']:
+			print(p)
+			param=Parameter()
+			param.command=command
+			param.name=p['NAME']
+			param.typ=p['TYPE']
+			param.save()
 	return HttpResponse('OK')
 
 def login(req):
