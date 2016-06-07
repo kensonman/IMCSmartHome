@@ -1,3 +1,6 @@
 [submodule "ccu/yowsup"]
 	path = ccu/yowsup
 	url = git@github.com:tgalal/yowsup.git
+[submodule "ccu/tg"]
+	path = ccu/tg
+	url = https://github.com/vysheng/tg.git
