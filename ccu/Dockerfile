@@ -11,7 +11,7 @@ ADD requirements.txt /usr/src/app/
 
 RUN echo "Installating the system dependencies..." 	&& \
   echo "alias ll=\"ls -l\"" >> /root/.bashrc 		&& \
-  apt-get update && apt-get install --fix-missing -y libpq-dev python3-dev libsasl2-dev libldap2-dev libssl-dev vim libjpeg-dev && \
+  apt-get update && apt-get install --fix-missing -y libpq-dev python3-dev libsasl2-dev libldap2-dev libssl-dev vim libjpeg-dev python-dateutil && \
   pip install --upgrade pip 				&& \
   echo "Installating the django dependencies..."	&& \
   pip install -r /usr/src/app/requirements.txt		&& \
