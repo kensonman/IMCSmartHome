@@ -2,5 +2,5 @@
 	path = ccu/yowsup
 	url = git@github.com:tgalal/yowsup.git
 [submodule "ccu/tg"]
-	path = ccu/tg
+	path = gateway.tg/cli
 	url = https://github.com/vysheng/tg.git
