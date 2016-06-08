@@ -1,6 +1,3 @@
-[submodule "ccu/yowsup"]
-	path = ccu/yowsup
-	url = git@github.com:tgalal/yowsup.git
 [submodule "ccu/webframe"]
 	path = ccu/webframe
 	url = https://github.com/kensonman/webframe.git

@@ -8,3 +8,4 @@ argparse
 requests
 future
 python-telegram-bot
+netifaces

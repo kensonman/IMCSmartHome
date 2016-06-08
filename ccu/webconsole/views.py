@@ -33,6 +33,9 @@ def cmd(req):
 			param.name=p['NAME']
 			param.typ=p['TYPE']
 			param.save()
+	elif cmd=='MSG':
+		cmd=req.POST['PARAMS']
+		print(cmd)
 	return HttpResponse('OK')
 
 def login(req):
