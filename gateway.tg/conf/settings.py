@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+INSTALLED_APPS += ['method_override', 'webframe', 'gateway',]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,9 +49,12 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'method_override.middleware.MethodOverrideMiddleware',
+    'webframe.LangMiddleware.LangMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
-ROOT_URLCONF = 'conf.urls'
+ROOT_URLCONF = 'gateway.urls'
 
 TEMPLATES = [
     {
@@ -63,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+		'webframe.providers.absolute_path', 'webframe.providers.fmt_injection', 'webframe.providers.template_injection',
             ],
         },
     },

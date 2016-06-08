@@ -1,0 +1,29 @@
+{%extends TMPL_BASE%}
+
+{%block title%}Telegram Gateway{%endblock%}
+
+{%block header%}{%endblock%}
+
+{%block content%}<div class="pnl-content jumbotron" id="pnl_content">
+	<div class="pnl-padding">
+		<h1>Telegram Gateway</h1>
+		<p>This is the telgram gateway. Please setup the following information.</p>
+		<form method="POST">{%csrf_token%}
+			<div class="field">
+				<label>Telegram Bot Token:</label>
+				<input tyep="text" name="token" value="{{TOKEN|default:''}}" class="form-control" placeholder="Telegram Bot Token"/>
+			</div>
+			<div class="field">
+				<label>CCU IP Address:</label>
+				<input tyep="text" name="ipaddr" value="{{IPADDR|default:''}}" class="form-control" placeholder="CCU IP Address"/>
+			</div>
+			<div class="field">
+				<label>CCU Port:</label>
+				<input tyep="text" name="port" value="{{PORT|default:''}}" class="form-control" placeholder="CCU IP Port"/>
+			</div>
+			<div class="pnl-btns">
+				<button type="submit" class="btn btn-success">Submit</button>
+			</div>
+		</form>
+	</div>
+</div>{%endblock%}

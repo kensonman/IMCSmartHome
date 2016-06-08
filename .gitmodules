@@ -1,9 +1,6 @@
 [submodule "ccu/yowsup"]
 	path = ccu/yowsup
 	url = git@github.com:tgalal/yowsup.git
-[submodule "ccu/tg"]
-	path = gateway.tg/cli
-	url = https://github.com/vysheng/tg.git
 [submodule "ccu/webframe"]
 	path = ccu/webframe
 	url = https://github.com/kensonman/webframe.git
