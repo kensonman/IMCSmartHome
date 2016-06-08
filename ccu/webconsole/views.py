@@ -35,7 +35,17 @@ def cmd(req):
 			param.save()
 	elif cmd=='MSG':
 		cmd=req.POST['PARAMS']
-		print(cmd)
+		# Due to the controlling function is not the most important in this project,
+		# hereunder will hardcode the controlling for testing and demonstration.
+		cmd=cmd.lower()
+		if 'on' in cmd:
+			#Turn on the light
+			return HttpResponse('OK, I\'ll turn on the light for you')
+		elif 'off' in cmd:
+			#Turn off the light
+			return HttpResponse('OK, I\'ll turn off the light for you')
+		else:
+			return HttpResponse('Sorry, I don\'t understand your command. Please try again.')
 	return HttpResponse('OK')
 
 def login(req):
