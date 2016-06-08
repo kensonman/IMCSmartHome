@@ -4,3 +4,6 @@
 [submodule "ccu/tg"]
 	path = gateway.tg/cli
 	url = https://github.com/vysheng/tg.git
+[submodule "gateway.tg/bot"]
+	path = gateway.tg/bot
+	url = https://github.com/python-telegram-bot/python-telegram-bot.git

@@ -1,0 +1,9 @@
+django
+django-method-override
+pillow
+six
+pytz
+humanize
+argparse
+requests
+future
