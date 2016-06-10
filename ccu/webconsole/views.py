@@ -39,10 +39,38 @@ def cmd(req):
 		# hereunder will hardcode the controlling for testing and demonstration.
 		cmd=cmd.lower()
 		if 'on' in cmd:
+			appliances=Appliance.objects.all()
 			#Turn on the light
+			data=dict()
+			data['UUID']=uuid.uuid4().__str__()
+			data['CMD']='ADJUST'
+			data['SNAME']='CCU'
+			data['SIP']=ipaddr
+			data['SPORT']=getattr(settings, 'PORT', '8000')
+			data['PARAMS']=json.dumps({'POWER': 'ON'})
+			data['TIME']=tz.now().strftime(FMT)
+			for a in appliances:
+				data['TNAME']=a.name
+				data['TIP']=a.ipaddr
+				data['TPORT']=a.port
+				requests.post('http://%s:%s/cmd/'%(a.ipaddr, a.port), data=data)
 			return HttpResponse('OK, I\'ll turn on the light for you')
 		elif 'off' in cmd:
+			appliances=Appliance.objects.all()
 			#Turn off the light
+			data=dict()
+			data['UUID']=uuid.uuid4().__str__()
+			data['CMD']='ADJUST'
+			data['SNAME']='CCU'
+			data['SIP']=ipaddr
+			data['SPORT']=getattr(settings, 'PORT', '8000')
+			data['PARAMS']=json.dumps({'POWER': 'OFF'})
+			data['TIME']=tz.now().strftime(FMT)
+			for a in appliances:
+				data['TNAME']=a.name
+				data['TIP']=a.ipaddr
+				data['TPORT']=a.port
+				requests.post('http://%s:%s/cmd/'%(a.ipaddr, a.port), data=data)
 			return HttpResponse('OK, I\'ll turn off the light for you')
 		else:
 			return HttpResponse('Sorry, I don\'t understand your command. Please try again.')
