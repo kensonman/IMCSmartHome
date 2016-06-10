@@ -4,7 +4,6 @@ pillow
 six
 pytz
 humanize
-yowsup2
 argparse
 python-nmap
 netifaces
