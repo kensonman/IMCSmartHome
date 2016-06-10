@@ -11,6 +11,7 @@ from webconsole.models import *
 import uuid
 import requests
 import json
+import netifaces
 
 FMT='%Y-%m-%dT%H:%M:%S%z'
 
@@ -38,6 +39,7 @@ def cmd(req):
 		# Due to the controlling function is not the most important in this project,
 		# hereunder will hardcode the controlling for testing and demonstration.
 		cmd=cmd.lower()
+		ipaddr=netifaces.ifaddresses(getattr(settings, 'BIND', 'eth0'))[2][0]['addr']
 		if 'on' in cmd:
 			appliances=Appliance.objects.all()
 			#Turn on the light
@@ -124,7 +126,6 @@ def appliance(req, aid):
 	'''
 	params=dict()
 	params['aid']=aid
-	import netifaces
 	ipaddr=netifaces.ifaddresses(getattr(settings, 'BIND', 'eth0'))[2][0]['addr']
 	if req.method=='POST':
 		appliance=Appliance()

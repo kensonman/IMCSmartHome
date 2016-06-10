@@ -11,6 +11,7 @@ FMT='%Y-%m-%dT%H:%M:%S%z'
 class Command(BaseCommand):
 	help = 'Start the telegram bot'
 	logger=logging.getLogger('startbot')
+	logging.basicConfig(filename='bot.log',level.logging.INFO)
 
 	def add_arguments(self, parser):
 		parser.add_argument('-conf', default='conf.py')
@@ -30,7 +31,6 @@ class Command(BaseCommand):
 
 	def message(self, bot, update):
 		print('message....')
-		import pdb; pdb.set_trace()
 		self.logger.info('Received Message \"%s\" from \"%s\"'%(update.message.text,update.message.from_user))
 		data=dict()
 		data['UUID']=uuid.uuid4().__str__()
