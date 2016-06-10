@@ -11,7 +11,7 @@ FMT='%Y-%m-%dT%H:%M:%S%z'
 class Command(BaseCommand):
 	help = 'Start the telegram bot'
 	logger=logging.getLogger('startbot')
-	logging.basicConfig(filename='bot.log',level.logging.INFO)
+	logging.basicConfig(filename='bot.log',level=logging.INFO)
 
 	def add_arguments(self, parser):
 		parser.add_argument('-conf', default='conf.py')
