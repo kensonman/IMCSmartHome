@@ -1,1 +1,20 @@
-{%extends TMPL_BASE%}
+{%extends TMPL_BASE%}{%load staticfiles%}
+
+{%block title%}Dashboard - IMC SmartHome{%endblock%}
+
+{%block content%}<div class="pnl-content jumbotron" id="pnl_content">
+<div class="pnl-padding">
+	<h1>Dashboard</h1>
+
+	<h2>Available Appliances</h2>
+	<table class="table"><tr>
+		<th>Name</th>
+		<th>IP Address</th>
+		<th>Status</th>
+	</tr>{%for a in appliances%}<tr class="row-data">
+		<td>{{a.name}}</td>
+		<td>{{a.ipaddr}}</td>
+		<td><img src="{%static 'img/connected.svg'%}" width="15"/></td>
+	</tr>{%endfor%}</table>
+</div>
+</div>
